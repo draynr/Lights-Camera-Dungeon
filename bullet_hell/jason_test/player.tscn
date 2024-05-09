@@ -1,0 +1,191 @@
+[gd_scene load_steps=27 format=3 uid="uid://dao7uc1w3p3nk"]
+
+[ext_resource type="Script" path="res://jason_test/player.gd" id="1_5obcd"]
+[ext_resource type="Texture2D" uid="uid://bnv8ckeirmbi8" path="res://Assets/Character/coputer-Sheet.png" id="2_qhpdq"]
+[ext_resource type="PackedScene" uid="uid://datklj0fvgipp" path="res://Scene/gun.tscn" id="3_fd6yu"]
+[ext_resource type="Texture2D" uid="uid://c4hkdtuaxsfb3" path="res://Assets/Character/coputer_sunglasses-Sheet.png" id="3_imq8y"]
+[ext_resource type="AudioStream" uid="uid://d08rpg76hsmp0" path="res://Assets/Audio/SFX/hit_enemy.wav" id="4_5mnnu"]
+[ext_resource type="AudioStream" uid="uid://cbbniyiogkif5" path="res://Assets/Audio/SFX/killed_enemy.wav" id="5_621pw"]
+[ext_resource type="AudioStream" uid="uid://7560ys7mftk0" path="res://Assets/Audio/SFX/damaged_player.wav" id="6_11rir"]
+[ext_resource type="AudioStream" uid="uid://bx3700ge0a8hu" path="res://Assets/Audio/SFX/Bubble heavy 2.wav" id="7_kqxfw"]
+[ext_resource type="PackedScene" uid="uid://lt30cwubnaje" path="res://Scene/dash.tscn" id="8_8yjpi"]
+[ext_resource type="PackedScene" uid="uid://cq1f7ogs4t07" path="res://jason_test/dash_particle.tscn" id="9_wknk2"]
+[ext_resource type="AudioStream" uid="uid://dcyqor8cvw2es" path="res://jason_test/Confirm_1.wav" id="10_7go7t"]
+[ext_resource type="FontFile" uid="uid://b1ifgp05hnlrs" path="res://Assets/UI/Elv Pixel Font 2/Elv Pixel Font 2/OpenType/elv-pixels-06.otf" id="12_8ejn2"]
+[ext_resource type="AudioStream" uid="uid://clqy02kx75ph4" path="res://Assets/Audio/SFX/player_shoot.wav" id="13_6uslm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wejp2"]
+atlas = ExtResource("2_qhpdq")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfkd8"]
+atlas = ExtResource("2_qhpdq")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_12fci"]
+atlas = ExtResource("2_qhpdq")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gojfw"]
+atlas = ExtResource("2_qhpdq")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sylds"]
+atlas = ExtResource("2_qhpdq")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ka543"]
+atlas = ExtResource("3_imq8y")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_whdah"]
+atlas = ExtResource("3_imq8y")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vodne"]
+atlas = ExtResource("3_imq8y")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ecfle"]
+atlas = ExtResource("3_imq8y")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b6djm"]
+atlas = ExtResource("3_imq8y")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d7nr3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wejp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfkd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_12fci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gojfw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sylds")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ka543")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_whdah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vodne")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ecfle")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b6djm")
+}],
+"loop": true,
+"name": &"idle_sunglasses",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vucik"]
+radius = 0.025
+height = 0.4
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_cd47d"]
+height = 0.660419
+radius = 0.145474
+
+[node name="player" type="CharacterBody3D" groups=["player"]]
+transform = Transform3D(0.88, 0, 0, 0, 0.88, 0, 0, 0, 0.88, 0, 0, 0)
+collision_mask = 14
+script = ExtResource("1_5obcd")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+billboard = 1
+shaded = true
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_d7nr3")
+animation = &"idle"
+frame = 4
+frame_progress = 0.683844
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Area3D" type="Area3D" parent="." groups=["playerhurtbox"]]
+collision_layer = 16
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("CapsuleShape3D_vucik")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.49, 0, 0, 0, 0.46267, 0, 0, 0, 0.787365, 0, 0, 0)
+shape = SubResource("CylinderShape3D_cd47d")
+
+[node name="Gun" parent="." instance=ExtResource("3_fd6yu")]
+
+[node name="Invuln" type="Timer" parent="."]
+one_shot = true
+
+[node name="Damaged_Enemy" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_5mnnu")
+volume_db = -2.552
+
+[node name="Killed_Enemy" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_621pw")
+volume_db = -22.928
+pitch_scale = 0.57
+
+[node name="Damaged_Player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_11rir")
+volume_db = -1.914
+
+[node name="Killed_Player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_kqxfw")
+volume_db = -1.914
+
+[node name="Dash" parent="." instance=ExtResource("8_8yjpi")]
+transform = Transform3D(0.986715, 0, 0, 0, 0.986715, 0, 0, 0, 0.986715, 0, 0, 0)
+
+[node name="DashTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[node name="dash_particle" parent="." instance=ExtResource("9_wknk2")]
+transform = Transform3D(0.0162, 0, 0, 0, 0.0162, 0, 0, 0, 0.0162, 0, 0, 0)
+emitting = false
+one_shot = true
+speed_scale = 2.0
+
+[node name="MakeLens" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="Lens_Ready" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_7go7t")
+
+[node name="Label" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.264658, 0)
+pixel_size = 0.002
+billboard = 1
+modulate = Color(0.0745098, 1, 0.00784314, 1)
+font = ExtResource("12_8ejn2")
+
+[node name="Player_Shoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_6uslm")
+volume_db = -4.0
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="MakeLens" to="." method="_on_lens_timer_timeout"]
